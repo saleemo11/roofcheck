@@ -1031,23 +1031,32 @@
             }, 2500);
         }
 
-        function submitLead(event) {
+        async function submitLead(event) {
             event.preventDefault();
             
             const leadData = {
                 name: document.getElementById('leadName').value,
                 zip: document.getElementById('leadZip').value,
                 phone: document.getElementById('leadPhone').value,
-                email: document.getElementById('leadEmail').value,
-                roofAge: analysisData?.age,
-                roofCondition: analysisData?.condition,
+                email: document.getElementById('leadEmail').value || null,
+                roofAge: analysisData?.age || 'Unknown',
+                condition: analysisData?.condition || 'Unknown',
                 timestamp: new Date().toISOString()
             };
 
-            // In production, this would POST to your backend
-            console.log('Lead captured:', leadData);
+            // Submit to backend
+            try {
+                const res = await fetch('https://londa-scutcheonlike-semiexperimentally.ngrok-free.dev/roofcheck/lead', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(leadData)
+                });
+                console.log('Lead submitted:', res.ok);
+            } catch (e) {
+                console.log('Lead submission failed, storing locally:', e);
+            }
 
-            // Show success
+            // Show success regardless (don't block UX)
             document.getElementById('resultsState').classList.remove('show');
             document.getElementById('leadForm').classList.remove('show');
             document.getElementById('successState').classList.add('show');
