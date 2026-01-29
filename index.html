@@ -1085,6 +1085,9 @@
             document.getElementById('resultsState').classList.remove('show');
             document.getElementById('leadForm').classList.remove('show');
             document.getElementById('successState').classList.add('show');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function resetTool() {
