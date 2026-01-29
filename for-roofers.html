@@ -565,34 +565,34 @@
                 <form id="rooferForm">
                     <div class="form-group">
                         <label>Company Name</label>
-                        <input type="text" placeholder="ABC Roofing" required>
+                        <input type="text" id="rooferCompany" placeholder="ABC Roofing" required>
                     </div>
                     <div class="form-group">
                         <label>Your Name</label>
-                        <input type="text" placeholder="John Smith" required>
+                        <input type="text" id="rooferName" placeholder="John Smith" required>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="tel" placeholder="(555) 123-4567" required>
+                            <input type="tel" id="rooferPhone" placeholder="(555) 123-4567" required>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" placeholder="john@abcroofing.com" required>
+                            <input type="email" id="rooferEmail" placeholder="john@abcroofing.com" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>ZIP Codes You Serve (comma separated)</label>
-                        <input type="text" placeholder="12345, 12346, 12347" required>
+                        <input type="text" id="rooferZips" placeholder="12345, 12346, 12347" required>
                     </div>
                     <div class="form-group">
                         <label>Average Jobs Per Month</label>
-                        <select required>
+                        <select id="rooferJobs" required>
                             <option value="">Select...</option>
-                            <option>1-5 jobs</option>
-                            <option>5-10 jobs</option>
-                            <option>10-20 jobs</option>
-                            <option>20+ jobs</option>
+                            <option value="1-5 jobs">1-5 jobs</option>
+                            <option value="5-10 jobs">5-10 jobs</option>
+                            <option value="10-20 jobs">10-20 jobs</option>
+                            <option value="20+ jobs">20+ jobs</option>
                         </select>
                     </div>
                     <button type="submit" class="submit-btn">Get Started — It's Free to Join</button>
@@ -751,8 +751,29 @@
     </footer>
 
     <script>
-        document.getElementById('rooferForm').addEventListener('submit', function(e) {
+        document.getElementById('rooferForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            const rooferData = {
+                company: document.getElementById('rooferCompany').value.trim(),
+                name: document.getElementById('rooferName').value.trim(),
+                phone: document.getElementById('rooferPhone').value.trim(),
+                email: document.getElementById('rooferEmail').value.trim(),
+                zips: document.getElementById('rooferZips').value.trim(),
+                jobsPerMonth: document.getElementById('rooferJobs').value
+            };
+            
+            // Submit to backend
+            try {
+                await fetch('https://roofcheck-api.saleemkhatri.workers.dev/roofer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(rooferData)
+                });
+            } catch (e) {
+                console.log('Submission error:', e);
+            }
+            
             // Redirect to thank you page (for pixel tracking)
             window.location.href = 'thank-you-roofer.html';
         });
