@@ -956,53 +956,58 @@
             }
         }
 
-        function analyzeRoof() {
+        async function analyzeRoof() {
             // Show loading
             document.getElementById('uploadState').style.display = 'none';
             document.getElementById('loadingState').classList.add('show');
 
-            // Simulate AI analysis
-            setTimeout(() => {
-                // Generate realistic results
-                const age = Math.round((8 + Math.random() * 20) * 2) / 2;
-                const confidence = Math.round(78 + Math.random() * 18);
-                const granuleLoss = Math.round(10 + (age / 25) * 45 + Math.random() * 10);
-                const lifeExpectancy = 25;
-                const remainingLife = Math.max(2, Math.round(lifeExpectancy - age - Math.random() * 3));
-                
-                const materials = ['Asphalt 3-Tab', 'Architectural Shingle', 'Asphalt Composite'];
-                const material = materials[Math.floor(Math.random() * materials.length)];
+            // Get the image data
+            const preview = document.getElementById('preview');
+            const imageData = preview.src;
 
-                // Determine status based on age and condition
-                let status, icon, title, desc, condition, showLeadForm;
+            try {
+                // Call real AI analysis
+                const response = await fetch('https://londa-scutcheonlike-semiexperimentally.ngrok-free.dev/roofcheck/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: imageData })
+                });
                 
-                if (age < 10 && granuleLoss < 25) {
-                    status = 'good';
+                const result = await response.json();
+                
+                // Check if it's actually a roof
+                if (!result.isRoof) {
+                    document.getElementById('loadingState').classList.remove('show');
+                    document.getElementById('uploadState').style.display = 'block';
+                    alert(result.error || 'Please upload a clear photo of a roof.');
+                    return;
+                }
+                
+                // Use real AI results
+                const { age, confidence, granuleLoss, material, condition, remainingLife, status } = result;
+                
+                // Determine display info based on status
+                let icon, title, desc, showLeadForm;
+                
+                if (status === 'good') {
                     icon = '✅';
                     title = 'Your Roof Looks Good!';
                     desc = 'No immediate action needed. Check again in 2-3 years.';
-                    condition = 'Good';
                     showLeadForm = false;
-                } else if (age < 15 && granuleLoss < 40) {
-                    status = 'monitor';
+                } else if (status === 'monitor') {
                     icon = '👀';
                     title = 'Monitor Your Roof';
                     desc = 'Your roof is aging normally. Consider an inspection in the next 1-2 years.';
-                    condition = 'Fair';
-                    showLeadForm = Math.random() > 0.5; // 50% show form
-                } else if (age < 20 || granuleLoss < 55) {
-                    status = 'attention';
+                    showLeadForm = Math.random() > 0.5;
+                } else if (status === 'attention') {
                     icon = '⚠️';
                     title = 'Attention Recommended';
                     desc = 'Your roof shows signs of wear. We recommend getting professional quotes within 6 months.';
-                    condition = 'Worn';
                     showLeadForm = true;
                 } else {
-                    status = 'urgent';
                     icon = '🚨';
                     title = 'Action Needed Soon';
                     desc = 'Your roof may need replacement. Get professional quotes as soon as possible.';
-                    condition = 'Poor';
                     showLeadForm = true;
                 }
 
@@ -1028,7 +1033,12 @@
                 if (showLeadForm) {
                     document.getElementById('leadForm').classList.add('show');
                 }
-            }, 2500);
+            } catch (error) {
+                console.error('Analysis failed:', error);
+                document.getElementById('loadingState').classList.remove('show');
+                document.getElementById('uploadState').style.display = 'block';
+                alert('Analysis failed. Please try again.');
+            }
         }
 
         async function submitLead(event) {
