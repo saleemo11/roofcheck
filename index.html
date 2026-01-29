@@ -1044,10 +1044,25 @@
         async function submitLead(event) {
             event.preventDefault();
             
+            const name = document.getElementById('leadName').value.trim();
+            const zip = document.getElementById('leadZip').value.trim();
+            const phone = document.getElementById('leadPhone').value.trim();
+            
+            // Validate required fields
+            if (!name || !zip || !phone) {
+                alert('Please fill in all required fields (Name, ZIP Code, and Phone Number)');
+                return;
+            }
+            
+            if (!/^\d{5}$/.test(zip)) {
+                alert('Please enter a valid 5-digit ZIP code');
+                return;
+            }
+            
             const leadData = {
-                name: document.getElementById('leadName').value,
-                zip: document.getElementById('leadZip').value,
-                phone: document.getElementById('leadPhone').value,
+                name: name,
+                zip: zip,
+                phone: phone,
                 email: document.getElementById('leadEmail').value || null,
                 roofAge: analysisData?.age || 'Unknown',
                 condition: analysisData?.condition || 'Unknown',
