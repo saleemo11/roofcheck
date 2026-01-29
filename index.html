@@ -1086,8 +1086,10 @@
             document.getElementById('leadForm').classList.remove('show');
             document.getElementById('successState').classList.add('show');
             
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Scroll to success message
+            setTimeout(() => {
+                document.getElementById('successState').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         }
 
         function resetTool() {
