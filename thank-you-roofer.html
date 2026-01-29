@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Network | RoofCheck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- ADD YOUR TRACKING PIXELS HERE -->
+    <!-- Facebook Pixel -->
+    <!-- <script>...</script> -->
+    <!-- Google Analytics -->
+    <!-- <script>...</script> -->
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #0369a1;
+            --primary-dark: #075985;
+            --success: #16a34a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--gray-800) 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 60px 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+            animation: bounce 0.6s ease-out;
+        }
+        
+        @keyframes bounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-bottom: 16px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        
+        .checklist {
+            text-align: left;
+            margin: 32px 0;
+            padding: 24px;
+            background: var(--gray-50);
+            border-radius: 16px;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            color: var(--gray-600);
+            font-size: 15px;
+        }
+        
+        .checklist-item:not(:last-child) {
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .check {
+            color: var(--success);
+            font-size: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            margin-top: 32px;
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">🔨</div>
+        <h1>Welcome to RoofCheck!</h1>
+        <p class="subtitle">We'll contact you within 24 hours to verify your business and get you set up to receive leads.</p>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <span class="check">✓</span>
+                <span>Application received</span>
+            </div>
+            <div class="checklist-item">
+                <span class="check">⏳</span>
+                <span>Business verification (24-48 hours)</span>
+            </div>
+            <div class="checklist-item">
+                <span class="check">⏳</span>
+                <span>Payment setup & lead preferences</span>
+            </div>
+            <div class="checklist-item">
+                <span class="check">⏳</span>
+                <span>Start receiving qualified leads</span>
+            </div>
+        </div>
+        
+        <a href="index.html" class="btn">Back to Homepage</a>
+        
+        <p class="footer">Questions? Email us at partners@roofcheck.com</p>
+    </div>
+</body>
+</html>

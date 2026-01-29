@@ -1081,15 +1081,8 @@
                 console.log('Lead submission failed, storing locally:', e);
             }
 
-            // Show success regardless (don't block UX)
-            document.getElementById('resultsState').classList.remove('show');
-            document.getElementById('leadForm').classList.remove('show');
-            document.getElementById('successState').classList.add('show');
-            
-            // Scroll to success message
-            setTimeout(() => {
-                document.getElementById('successState').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
+            // Redirect to thank you page (for pixel tracking)
+            window.location.href = 'thank-you.html';
         }
 
         function resetTool() {

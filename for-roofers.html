@@ -753,7 +753,8 @@
     <script>
         document.getElementById('rooferForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thanks! We\'ll contact you within 24 hours to get you set up.');
+            // Redirect to thank you page (for pixel tracking)
+            window.location.href = 'thank-you-roofer.html';
         });
     </script>
 </body>
