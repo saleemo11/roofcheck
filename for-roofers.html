@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoofCheck for Roofers | Get Qualified Leads in Your Area</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #0369a1;
+            --primary-dark: #075985;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        nav {
+            background: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, #0ea5e9 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--gray-900) 0%, #1e3a5f 100%);
+            color: white;
+            padding: 80px 24px;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #60a5fa;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 32px;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+        }
+
+        .hero-feature span {
+            font-size: 24px;
+        }
+
+        /* Signup Card */
+        .signup-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            color: var(--gray-800);
+        }
+
+        .signup-card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .signup-card p {
+            color: var(--gray-600);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(3,105,161,0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #15803d;
+        }
+
+        /* Stats */
+        .stats {
+            background: white;
+            padding: 60px 24px;
+        }
+
+        .stats-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 24px;
+        }
+
+        .stat-value {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: 8px;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 24px;
+            background: var(--gray-50);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        .steps {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 24px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 auto 16px;
+        }
+
+        .step h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 80px 24px;
+            background: white;
+        }
+
+        .pricing-cards {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .pricing-card {
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Best Value';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pricing-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pricing-desc {
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--gray-900);
+        }
+
+        .pricing-price span {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--gray-500);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 24px;
+            background: var(--gray-50);
+        }
+
+        .testimonial-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .testimonial-stars {
+            color: #f59e0b;
+            margin-bottom: 12px;
+        }
+
+        .testimonial-text {
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .testimonial-company {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        /* CTA */
+        .cta {
+            padding: 80px 24px;
+            background: var(--primary);
+            text-align: center;
+            color: white;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta p {
+            opacity: 0.9;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn {
+            background: white;
+            color: var(--primary);
+            font-size: 18px;
+            padding: 16px 32px;
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 80px 24px;
+            background: white;
+        }
+
+        .faq-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--gray-200);
+            padding: 20px 0;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .faq-answer {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .stats-content { grid-template-columns: 1fr 1fr; }
+            .steps { grid-template-columns: 1fr; }
+            .pricing-cards { grid-template-columns: 1fr; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🏠</div>
+                RoofCheck
+            </a>
+            <a href="#signup" class="btn btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div>
+                <h1>Get <span>Qualified Leads</span> From Homeowners Ready for a New Roof</h1>
+                <p class="hero-subtitle">
+                    We connect you with homeowners whose roofs need attention — they've already used our AI tool and requested quotes. No cold calls. No tire-kickers.
+                </p>
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <span>✅</span> Pre-qualified homeowners in your area
+                    </div>
+                    <div class="hero-feature">
+                        <span>✅</span> Pay only for leads you receive
+                    </div>
+                    <div class="hero-feature">
+                        <span>✅</span> Exclusive or shared lead options
+                    </div>
+                    <div class="hero-feature">
+                        <span>✅</span> No contracts, cancel anytime
+                    </div>
+                </div>
+            </div>
+
+            <div class="signup-card" id="signup">
+                <h2>Join Our Roofer Network</h2>
+                <p>Fill out the form below and we'll contact you within 24 hours.</p>
+                <form id="rooferForm">
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" placeholder="ABC Roofing" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" placeholder="John Smith" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" placeholder="(555) 123-4567" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="john@abcroofing.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>ZIP Codes You Serve (comma separated)</label>
+                        <input type="text" placeholder="12345, 12346, 12347" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Average Jobs Per Month</label>
+                        <select required>
+                            <option value="">Select...</option>
+                            <option>1-5 jobs</option>
+                            <option>5-10 jobs</option>
+                            <option>10-20 jobs</option>
+                            <option>20+ jobs</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Get Started — It's Free to Join</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-content">
+            <div class="stat-item">
+                <div class="stat-value">50K+</div>
+                <div class="stat-label">Homeowners Served</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">$4.2K</div>
+                <div class="stat-label">Avg Lead Value</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">23%</div>
+                <div class="stat-label">Avg Close Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">Roofers in Network</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">We do the hard work of finding homeowners who need roof work. You just close the deals.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>Homeowner Uses Our Tool</h4>
+                <p>Homeowners upload a roof photo to our AI tool. It tells them their roof's age and condition.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>They Request Quotes</h4>
+                <p>If their roof needs attention, they enter their contact info to get free quotes from local roofers.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>You Get the Lead</h4>
+                <p>We match their ZIP code to your service area and send you the lead instantly via text and email.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing">
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">No monthly fees. No contracts. Pay only for leads you receive.</p>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <div class="pricing-name">Shared Leads</div>
+                <div class="pricing-desc">Lead shared with up to 3 roofers in your area</div>
+                <div class="pricing-price">$65<span>/lead</span></div>
+                <ul class="pricing-features">
+                    <li>Verified homeowner contact info</li>
+                    <li>Roof condition & age analysis included</li>
+                    <li>Instant delivery via text & email</li>
+                    <li>Shared with max 3 roofers</li>
+                    <li>Great for building pipeline</li>
+                </ul>
+                <a href="#signup" class="btn btn-outline" style="width:100%;">Get Started</a>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-name">Exclusive Leads</div>
+                <div class="pricing-desc">You're the only roofer who gets this lead</div>
+                <div class="pricing-price">$149<span>/lead</span></div>
+                <ul class="pricing-features">
+                    <li>Everything in Shared, plus:</li>
+                    <li>100% exclusive — only you get it</li>
+                    <li>Higher close rate (avg 28%)</li>
+                    <li>Priority delivery</li>
+                    <li>Best for serious closers</li>
+                </ul>
+                <a href="#signup" class="btn btn-primary" style="width:100%;">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2 class="section-title">What Roofers Are Saying</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"These leads are actually qualified. Homeowners already know their roof needs work — I'm not cold calling people who don't care."</p>
+                <div class="testimonial-author">Mike T.</div>
+                <div class="testimonial-company">T&M Roofing, Dallas TX</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"Closed 4 jobs last month from RoofCheck leads. At $15K average ticket, the ROI is insane. Way better than HomeAdvisor."</p>
+                <div class="testimonial-author">Sarah K.</div>
+                <div class="testimonial-company">Precision Roofing, Phoenix AZ</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"I switched to exclusive leads only and my close rate went from 15% to 30%. Worth every penny."</p>
+                <div class="testimonial-author">James R.</div>
+                <div class="testimonial-company">James Roofing Co, Atlanta GA</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-content">
+            <div class="faq-item">
+                <div class="faq-question">How quickly do I get leads?</div>
+                <div class="faq-answer">Leads are delivered instantly via text and email. Most of our roofers call within 5 minutes of receiving a lead.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What information do I get with each lead?</div>
+                <div class="faq-answer">You get the homeowner's name, phone, email, ZIP code, plus our AI analysis of their roof's estimated age and condition.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Can I pause or cancel anytime?</div>
+                <div class="faq-answer">Yes! There are no contracts. You can pause lead delivery anytime from your dashboard, and you only pay for leads you receive.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What if I get a bad lead?</div>
+                <div class="faq-answer">We have a lead quality guarantee. If you get a lead with a wrong number or fake info, we'll replace it or credit your account.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do you get these leads?</div>
+                <div class="faq-answer">Homeowners find us through Google, Facebook, and word of mouth. They use our free AI roof analysis tool, and if their roof needs work, they can request quotes from local roofers.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Ready to Grow Your Roofing Business?</h2>
+        <p>Join 500+ roofers already getting qualified leads from RoofCheck.</p>
+        <a href="#signup" class="btn">Join the Network — Free</a>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">For Homeowners</a>
+            <a href="#">About</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="footer-copy">© 2026 RoofCheck. All rights reserved.</div>
+    </footer>
+
+    <script>
+        document.getElementById('rooferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thanks! We\'ll contact you within 24 hours to get you set up.');
+        });
+    </script>
+</body>
+</html>
