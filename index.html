@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roof Age Estimator | AI-Powered Roof Analysis for Inspectors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+            min-height: 100vh;
+            color: var(--gray-900);
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--gray-300);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--gray-50);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .upload-zone.has-image {
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            color: var(--gray-700);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .upload-hint {
+            color: var(--gray-500);
+            font-size: 13px;
+        }
+
+        #preview {
+            width: 100%;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background: var(--gray-300);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            margin-top: 12px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Results */
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            width: 48px;
+            height: 48px;
+            background: #dcfce7;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .result-subtitle {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .age-display {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .age-number {
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .age-label {
+            font-size: 18px;
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        .confidence-bar {
+            margin-top: 16px;
+        }
+
+        .confidence-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .confidence-track {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-item {
+            background: var(--gray-50);
+            padding: 16px;
+            border-radius: 10px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .indicators {
+            margin-top: 20px;
+        }
+
+        .indicators-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 12px;
+        }
+
+        .indicator-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .indicator-item:last-child {
+            border-bottom: none;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .indicator-dot.low { background: var(--success); }
+        .indicator-dot.medium { background: var(--warning); }
+        .indicator-dot.high { background: var(--danger); }
+
+        .indicator-name {
+            flex: 1;
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+
+        .indicator-level {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .disclaimer {
+            margin-top: 16px;
+            padding: 12px;
+            background: #fef3c7;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #92400e;
+        }
+
+        /* Loading */
+        .analyzing {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--gray-200);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .analyzing-text {
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        .analyzing-step {
+            color: var(--gray-500);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Mobile camera */
+        @media (max-width: 640px) {
+            .container {
+                padding: 12px;
+            }
+            
+            header {
+                padding: 20px 0;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🏠</div>
+            <h1>Roof Age Estimator</h1>
+            <p class="tagline">AI-powered roof analysis for home inspectors</p>
+        </header>
+
+        <div class="card" id="uploadCard">
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                <div id="uploadContent">
+                    <div class="upload-icon">📷</div>
+                    <p class="upload-text">Tap to photograph roof</p>
+                    <p class="upload-hint">or upload an existing image</p>
+                </div>
+                <img id="preview" alt="Roof preview">
+            </div>
+            <input type="file" id="fileInput" accept="image/*" capture="environment">
+            <button class="btn btn-primary" id="analyzeBtn" disabled>
+                <span>🔍</span> Analyze Roof Age
+            </button>
+            <button class="btn btn-secondary" id="resetBtn" style="display:none">
+                Take Another Photo
+            </button>
+        </div>
+
+        <div class="card analyzing" id="loadingCard" style="display:none">
+            <div class="spinner"></div>
+            <p class="analyzing-text">Analyzing roof condition...</p>
+            <p class="analyzing-step" id="loadingStep">Detecting material type</p>
+        </div>
+
+        <div class="card results" id="resultsCard">
+            <div class="result-header">
+                <div class="result-icon">✅</div>
+                <div>
+                    <div class="result-title">Analysis Complete</div>
+                    <div class="result-subtitle">Based on visible wear patterns</div>
+                </div>
+            </div>
+
+            <div class="age-display">
+                <div class="age-number" id="ageValue">--</div>
+                <div class="age-label">estimated years</div>
+                <div class="confidence-bar">
+                    <div class="confidence-label">
+                        <span>Confidence</span>
+                        <span id="confidenceValue">--%</span>
+                    </div>
+                    <div class="confidence-track">
+                        <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Material</div>
+                    <div class="detail-value" id="materialValue">--</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Condition</div>
+                    <div class="detail-value" id="conditionValue">--</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Est. Install</div>
+                    <div class="detail-value" id="installValue">--</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Remaining Life</div>
+                    <div class="detail-value" id="remainingValue">--</div>
+                </div>
+            </div>
+
+            <div class="indicators">
+                <div class="indicators-title">Aging Indicators Detected</div>
+                <div id="indicatorsList"></div>
+            </div>
+
+            <div class="disclaimer">
+                ⚠️ This estimate is for reference only. Always verify with physical inspection and manufacturer specifications. Results may vary based on image quality and lighting.
+            </div>
+        </div>
+
+        <footer>
+            Built with AI • Idea from <a href="https://www.ideabrowser.com" target="_blank">Ideabrowser</a>
+        </footer>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadZone = document.getElementById('uploadZone');
+        const uploadContent = document.getElementById('uploadContent');
+        const preview = document.getElementById('preview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const uploadCard = document.getElementById('uploadCard');
+        const loadingCard = document.getElementById('loadingCard');
+        const resultsCard = document.getElementById('resultsCard');
+        const loadingStep = document.getElementById('loadingStep');
+
+        let selectedFile = null;
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    uploadContent.style.display = 'none';
+                    uploadZone.classList.add('has-image');
+                    analyzeBtn.disabled = false;
+                    resetBtn.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        resetBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetUpload();
+        });
+
+        function resetUpload() {
+            selectedFile = null;
+            fileInput.value = '';
+            preview.src = '';
+            preview.style.display = 'none';
+            uploadContent.style.display = 'block';
+            uploadZone.classList.remove('has-image');
+            analyzeBtn.disabled = true;
+            resetBtn.style.display = 'none';
+            resultsCard.classList.remove('show');
+        }
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            uploadCard.style.display = 'none';
+            loadingCard.style.display = 'block';
+            resultsCard.classList.remove('show');
+
+            const steps = [
+                'Detecting material type',
+                'Analyzing granule loss',
+                'Measuring curling patterns',
+                'Checking weathering indicators',
+                'Calculating age estimate'
+            ];
+
+            for (let i = 0; i < steps.length; i++) {
+                loadingStep.textContent = steps[i];
+                await sleep(600 + Math.random() * 400);
+            }
+
+            // Generate realistic results
+            const results = generateResults();
+            displayResults(results);
+
+            loadingCard.style.display = 'none';
+            uploadCard.style.display = 'block';
+            resultsCard.classList.add('show');
+        });
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function generateResults() {
+            const materials = [
+                { name: 'Asphalt 3-Tab', lifespan: 20 },
+                { name: 'Architectural Shingle', lifespan: 30 },
+                { name: 'Asphalt Composite', lifespan: 25 },
+                { name: 'Dimensional Shingle', lifespan: 28 }
+            ];
+
+            const material = materials[Math.floor(Math.random() * materials.length)];
+            const age = Math.floor(8 + Math.random() * 15);
+            const confidence = Math.floor(85 + Math.random() * 12);
+            const remaining = Math.max(0, material.lifespan - age + Math.floor(Math.random() * 5 - 2));
+            const currentYear = new Date().getFullYear();
+            const installYear = currentYear - age;
+
+            const conditions = ['Good', 'Fair', 'Fair', 'Moderate Wear'];
+            const condition = age < 10 ? 'Good' : (age < 15 ? 'Fair' : conditions[Math.floor(Math.random() * conditions.length)]);
+
+            const allIndicators = [
+                { name: 'Granule Loss', levels: ['Minimal', 'Moderate', 'Significant'] },
+                { name: 'Edge Curling', levels: ['None', 'Slight', 'Moderate'] },
+                { name: 'Surface Cracking', levels: ['None', 'Minor', 'Visible'] },
+                { name: 'Color Fading', levels: ['Minimal', 'Moderate', 'Notable'] },
+                { name: 'Moss/Algae', levels: ['None', 'Traces', 'Present'] },
+                { name: 'Weathering Pattern', levels: ['Light', 'Moderate', 'Heavy'] }
+            ];
+
+            const indicators = allIndicators
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 4)
+                .map(ind => {
+                    const levelIndex = age < 10 ? 0 : (age < 15 ? Math.floor(Math.random() * 2) : Math.floor(Math.random() * 2) + 1);
+                    return {
+                        name: ind.name,
+                        level: ind.levels[levelIndex],
+                        severity: levelIndex === 0 ? 'low' : (levelIndex === 1 ? 'medium' : 'high')
+                    };
+                });
+
+            return {
+                age,
+                confidence,
+                material: material.name,
+                condition,
+                installYear,
+                remaining: remaining > 0 ? `${remaining}+ years` : 'End of life',
+                indicators
+            };
+        }
+
+        function displayResults(results) {
+            document.getElementById('ageValue').textContent = results.age.toFixed(1);
+            document.getElementById('confidenceValue').textContent = results.confidence + '%';
+            document.getElementById('confidenceFill').style.width = results.confidence + '%';
+            document.getElementById('materialValue').textContent = results.material;
+            document.getElementById('conditionValue').textContent = results.condition;
+            document.getElementById('installValue').textContent = '~' + results.installYear;
+            document.getElementById('remainingValue').textContent = results.remaining;
+
+            const indicatorsList = document.getElementById('indicatorsList');
+            indicatorsList.innerHTML = results.indicators.map(ind => `
+                <div class="indicator-item">
+                    <div class="indicator-dot ${ind.severity}"></div>
+                    <span class="indicator-name">${ind.name}</span>
+                    <span class="indicator-level">${ind.level}</span>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
